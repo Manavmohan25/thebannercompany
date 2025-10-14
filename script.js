@@ -2,11 +2,22 @@
 let productsData = [];
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
-    loadProductsFromCSV();
-    setupEventListeners();
-    setupFAQ();
-    initHeroSlider();
+document.addEventListener('DOMContentLoaded', () => {
+  try { loadProductsFromCSV(); } 
+  catch(e) { console.error('CSV load error:', e); }
+
+  try { setupEventListeners(); } 
+  catch(e) { console.error('Event listener setup error:', e); }
+
+  try { setupFAQ(); } 
+  catch(e) { console.error('FAQ setup error:', e); }
+
+  try { initHeroSlider(); } 
+  catch(e) { console.error('Hero slider init error:', e); }
+
+  // validateHeroImages() ensures fallback hero image if file missing
+  try { validateHeroImages(); } 
+  catch(e) { console.error('Hero image validation error:', e); }
 });
 
 // Load products from CSV file
@@ -395,15 +406,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // HERO SLIDER (multiple hero images)
 function initHeroSlider() {
-    const slider = document.querySelector('.hero');
-    if (!slider) return;
-    const slides = slider.querySelectorAll('.hero-slide');
-    if (slides.length <= 1) return;
-    let idx = 0;
+  const slider = document.querySelector('.hero');
+  if (!slider) return;
+  const slides = slider.querySelectorAll('.hero-slide');
+  if (!slides.length) return;
+
+  // ✅ Always make first slide visible
+  slides.forEach(s => s.classList.remove('active'));
+  slides[0].classList.add('active');
+
+  if (slides.length === 1) return; // no rotation needed
+  let idx = 0;
+  setInterval(() => {
+    slides[idx].classList.remove('active');
+    idx = (idx + 1) % slides.length;
     slides[idx].classList.add('active');
-    setInterval(() => {
-        slides[idx].classList.remove('active');
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-    }, 4000);
+  }, 4000);
 }
