@@ -15,6 +15,17 @@
     --gray: #666666;
     --light-gray: #F5F5F5;
 }
+/* ===== Fluid typography & spacing ===== */
+html { font-size: 100%; } /* base 16px */
+
+h1, .hero-title { font-size: clamp(1.8rem, 2vw + 1.2rem, 3rem); }
+h2 { font-size: clamp(1.4rem, 1.2vw + 1rem, 2rem); }
+h3 { font-size: clamp(1.2rem, 1vw + 0.9rem, 1.6rem); }
+p, li, a, button, input, textarea { font-size: clamp(0.95rem, 0.5vw + 0.85rem, 1.05rem); }
+
+/* Containers breathe on small screens, stay neat on large */
+.container { padding: 0 clamp(12px, 3vw, 24px); }
+
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,7 +36,6 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
 }
 
 /* Navigation */
@@ -99,13 +109,15 @@ body {
 
 /* HERO SLIDER */
 .hero {
-    position: relative;
-    height: 600px;
-    margin-top: 40px;        /* ✅ remove gap */
-    padding-top: 70px;    /* ✅ pushes content down below fixed navbar */
-    overflow: hidden;
-    color: white;
+  position: relative;
+  min-height: clamp(380px, 60vh, 680px);
+  margin-top: 50px;
+  padding-top: 70px; /* keeps content below fixed navbar */
+  overflow: hidden;
+  color: white;
 }
+.hero-content { padding: clamp(12px, 2vw, 20px); }
+.hero-subtitle { margin-bottom: clamp(16px, 3vw, 30px); }
 
 
 .hero-slide {
@@ -290,6 +302,21 @@ body {
     color: var(--gray);
 }
 
+/* Fluid section paddings */
+.best-sellers-home,
+.about-home,
+.contact-preview,
+.mission-section,
+.story-section,
+.products-section,
+.featured-product-section,
+.you-may-like-section,
+.contact-cta,
+.contact-section {
+  padding: clamp(40px, 7vw, 80px) clamp(12px, 4vw, 20px);
+}
+
+
 /* Contact Preview Home */
 .contact-preview {
     padding: 80px 20px;
@@ -356,12 +383,23 @@ body {
 }
 
 /* Products Grid */
-.products-grid {
+/* .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
     margin: 50px 0;
+} */
+/* Fluid product grids */
+.products-grid,
+.products-grid-main,
+.products-grid-like {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(16px, 3vw, 30px);
+  margin: 50px 0;
 }
+
+
 
 /* Products Section */
 .products-section {
@@ -370,12 +408,12 @@ body {
 }
 
 /* Products Main Grid (First 6) */
-.products-grid-main {
+/* .products-grid-main {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin: 50px 0;
-}
+} */
 
 /* Products Scrollable (Remaining) */
 .products-scrollable-wrapper {
@@ -432,10 +470,11 @@ body {
 }
 
 .product-image {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+  width: 100%;
+  height: clamp(200px, 28vw, 260px);
+  object-fit: cover;
 }
+
 
 .product-info {
     padding: 20px;
@@ -520,10 +559,11 @@ body {
 }
 
 .featured-product-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
+  width: 100%;
+  height: clamp(260px, 36vw, 420px);
+  object-fit: cover;
 }
+
 
 .featured-product-details {
     text-align: left;
@@ -567,12 +607,12 @@ body {
     text-align: center;
 }
 
-.products-grid-like {
+/* .products-grid-like {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     margin-top: 50px;
-}
+} */
 
 /* Contact Cards */
 .contact-cards {
@@ -764,6 +804,20 @@ body {
     gap: 40px;
     margin-bottom: 40px;
 }
+
+/* Footer-specific social icons: align left */
+.footer .social-icons {
+  justify-content: flex-start;   /* left align */
+  margin-left: 0;
+}
+
+/* keep them nicely centered inside their circles */
+.footer .social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .footer-brand p { margin: 20px 0; color: #aaa; }
 .footer h4 { margin-bottom: 20px; font-size: 18px; }
 .footer-links ul { list-style: none; }
@@ -820,3 +874,13 @@ body {
     font-weight: 500;
   }
 }
+
+@media (max-width: 900px) {
+  .featured-product { grid-template-columns: 1fr; }
+  .story-content { flex-direction: column; gap: clamp(20px, 5vw, 40px); }
+  .contact-form-wrapper { grid-template-columns: 1fr; gap: clamp(20px, 4vw, 40px); }
+  .hero-buttons, .cta-buttons { flex-wrap: wrap; gap: clamp(10px, 2vw, 20px); }
+}
+a, button { min-height: 44px; }
+input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
+
