@@ -670,6 +670,16 @@ body {
     text-decoration: none;
     transition: background 0.3s;
 }
+/* SVG inside round social buttons */
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: #fff;              /* icon color */
+  stroke: #fff;            /* for outlined icons (Instagram) */
+  stroke-width: 1.5;
+}
+
 .social-icon:hover { background: var(--coral); }
 
 /* Contact CTA */
