@@ -918,3 +918,33 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   position: absolute; inset: 0;
   width: 50%; overflow: hidden;
 }
+
+/* ===== Home page color swaps (overrides) ===== */
+
+/* Best Sellers → white */
+.best-sellers-home {
+  background-color: #ffffff !important;
+  color: #111;
+}
+
+/* About the Banner Company block on home → pink shade */
+.about-home,
+.mission-section.home-about {          /* in case your about block uses mission-section */
+  background-color: #FFE5EC !important;  /* soft pink; tweak if you want a different shade */
+  color: #111;
+}
+
+/* "Let's Celebrate / Contact us" preview on home → white */
+.contact-preview,
+.contact-cta.home-preview {            /* in case that section uses contact-cta */
+  background-color: #ffffff !important;
+  color: #111;
+}
+
+/* Optional: ensure cards still look good on white backgrounds */
+.best-sellers-home .product-card { background: #fff; }
+
+/* Optional: headings stay readable on pink */
+.about-home h2,
+.mission-section.home-about h2 { color: #111; }
+
