@@ -948,3 +948,69 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 .about-home h2,
 .mission-section.home-about h2 { color: #111; }
 
+
+/* ==== Products page overrides ==== */
+
+/* Make hero behave nicely under the fixed navbar */
+.hero.hero--products {
+  margin-top: 0;          /* remove any gap above */
+  padding-top: 70px;      /* clears the fixed navbar height */
+  min-height: clamp(320px, 55vh, 600px);
+}
+
+/* Section colors (Products page only) */
+.page-products .products-section {        /* product list */
+  background: #ffffff !important;
+  color: #111;
+}
+
+.page-products .featured-product-section { /* featured product */
+  background: var(--light-pink) !important;  /* soft pink brand shade */
+  color: #111;
+}
+
+.page-products .you-may-like-section {    /* you may also like */
+  background: #ffffff !important;
+  color: #111;
+}
+
+/* ==== About page overrides ==== */
+
+/* Hero behavior under fixed navbar (reuse home hero styles) */
+.hero.hero--about {
+  margin-top: 0;           /* remove any gap */
+  padding-top: 70px;       /* clear the fixed navbar height */
+  min-height: clamp(320px, 55vh, 600px);
+}
+
+/* Colors requested:
+   - Our Mission  -> white
+   - Our Story    -> grey
+*/
+.page-about .mission-section {
+  background: #ffffff !important;
+  color: #111;
+}
+
+.page-about .story-section {
+  background: #f5f5f7 !important;   /* soft grey */
+  color: #111;
+}
+
+/* (Optional) tighten contrast for headings on grey */
+.page-about .story-section h2 { color: #111; }
+
+/* ===== Contact page header alignment ===== */
+.page-contact .page-header .container {
+  text-align: left;              /* stop centering everything */
+}
+
+.page-contact .page-header h1,
+.page-contact .page-header p {
+  margin-left: 0;                /* ensure left edge aligns */
+}
+
+.page-contact .page-header p {
+  max-width: 60ch;               /* comfy line length */
+  color: #555;                   /* optional: softer paragraph tone */
+}
