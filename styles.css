@@ -68,6 +68,13 @@ body {
     font-weight: bold;
     font-size: 18px;
 }
+.nav-brand {
+  text-decoration: none;   /* keep current look */
+  color: inherit;          /* use navbar text color */
+  cursor: pointer;
+}
+.nav-brand:hover { opacity: 0.9; }
+.nav-brand:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 .logo-icon {
     font-size: 30px;
