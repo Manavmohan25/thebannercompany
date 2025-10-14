@@ -329,46 +329,33 @@ function createProductCard(product) {
 function setupEventListeners() {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(contactForm);
-            const formMessage = document.getElementById('formMessage');
-            
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            
-            fetch('send_email.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                
-                if (data.success) {
-                    formMessage.className = 'form-message success';
-                    formMessage.textContent = data.message;
-                    contactForm.reset();
-                } else {
-                    formMessage.className = 'form-message error';
-                    formMessage.textContent = data.message;
-                }
-                
-                setTimeout(() => { formMessage.className = 'form-message'; }, 5000);
-            })
-            .catch(error => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                formMessage.className = 'form-message error';
-                formMessage.textContent = 'An error occurred. Please try again.';
-                console.error('Error:', error);
-            });
-        });
-    }
+        contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formMessage = document.getElementById('formMessage');
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...'; submitBtn.disabled = true;
+
+        const data = Object.fromEntries(new FormData(contactForm).entries());
+        const res = await fetch('/api/contact', {
+         method: 'POST',
+         headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(data)
+        }).catch(() => null);
+
+        submitBtn.textContent = originalText; submitBtn.disabled = false;
+
+        if (res && res.ok) {
+            const payload = await res.json();
+            formMessage.className = 'form-message success';
+            formMessage.textContent = payload.message || 'Thanks! We’ll get back to you shortly.';
+            contactForm.reset();
+        } else {
+            formMessage.className = 'form-message error';
+            formMessage.textContent = 'Unable to send right now. Please try again.';
+     }
+        setTimeout(()=>{ formMessage.className='form-message'; }, 5000);
+    });
 }
 
 // Setup FAQ accordion
@@ -382,8 +369,8 @@ function setupFAQ() {
             if (!isActive) faqItem.classList.add('active');
         });
     });
+    }
 }
-
 // HERO SLIDER (multiple hero images)
 function initHeroSlider() {
     const slider = document.querySelector('.hero');
