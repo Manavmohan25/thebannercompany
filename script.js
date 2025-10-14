@@ -338,59 +338,65 @@ function createProductCard(product) {
 
 // Setup event listeners
 function setupEventListeners() {
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formMessage = document.getElementById('formMessage');
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Sending...'; submitBtn.disabled = true;
+  // CONTACT FORM
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formMessage = document.getElementById('formMessage');
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...'; submitBtn.disabled = true;
 
-        const data = Object.fromEntries(new FormData(contactForm).entries());
-        const res = await fetch('/api/contact', {
-         method: 'POST',
-         headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify(data)
-        }).catch(() => null);
+      const data = Object.fromEntries(new FormData(contactForm).entries());
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).catch(() => null);
 
-        submitBtn.textContent = originalText; submitBtn.disabled = false;
+      submitBtn.textContent = originalText; submitBtn.disabled = false;
 
-        if (res && res.ok) {
-            const payload = await res.json();
-            formMessage.className = 'form-message success';
-            formMessage.textContent = payload.message || 'Thanks! We’ll get back to you shortly.';
-            contactForm.reset();
-        } else {
-            formMessage.className = 'form-message error';
-            formMessage.textContent = 'Unable to send right now. Please try again.';
-     }
-        setTimeout(()=>{ formMessage.className='form-message'; }, 5000);
+      if (res && res.ok) {
+        const payload = await res.json();
+        formMessage.className = 'form-message success';
+        formMessage.textContent = payload.message || 'Thanks! We’ll get back to you shortly.';
+        contactForm.reset();
+      } else {
+        formMessage.className = 'form-message error';
+        formMessage.textContent = 'Unable to send right now. Please try again.';
+      }
+      setTimeout(() => { formMessage.className = 'form-message'; }, 5000);
     });
+  }
+
+  // ✅ MOBILE NAV TOGGLE
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.getElementById('mainNav');
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+    });
+    // Close after clicking a link (nice UX)
+    navMenu.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => navMenu.classList.remove('open'))
+    );
+  }
 }
-// ✅ Mobile menu toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.getElementById('mainNav');
-if (navToggle && navMenu) {
-  navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('open');
+
+function setupFAQ() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function () {
+      const item = this.parentElement;
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      if (!isActive) item.classList.add('active');
+    });
   });
 }
 
-
-// Setup FAQ accordion
-function setupFAQ() {
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            const faqItem = this.parentElement;
-            const isActive = faqItem.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
-            if (!isActive) faqItem.classList.add('active');
-        });
-    });
-    }
-}
 //Default Hero Images
 function validateHeroImages() {
   const slides = document.querySelectorAll('.hero .hero-slide');
