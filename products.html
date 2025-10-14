@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - The Banner Company</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo-icon"></span>
+                <span class="logo-text">THE BANNER COMPANY</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="products.html" class="nav-link active">Our Products</a></li>
+                <li><a href="about.html" class="nav-link">About Us & Mission</a></li>
+                <li><a href="contact.html" class="nav-link">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Products</h1>
+            <p>Curated collection of party supplies to make your celebration special</p>
+        </div>
+    </section>
+
+    <!-- Products Section - Single View with 6 Images then Scrollable -->
+    <section class="products-section">
+        <div class="container">
+            <!-- First 6 products in grid -->
+            <div class="products-grid-main" id="productsGridMain">
+                <!-- First 6 products loaded here -->
+            </div>
+            
+            <!-- Remaining products in scrollable horizontal view -->
+            <div class="products-scrollable-wrapper" id="productsScrollableWrapper" style="display: none;">
+                <h3 class="scroll-title">More Products</h3>
+                <div class="products-scrollable" id="productsScrollable">
+                    <!-- Remaining products loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Product Section -->
+    <section class="featured-product-section">
+        <div class="container">
+            <h2 class="section-title">Featured Product</h2>
+            <p class="section-subtitle">Our specially selected highlight that's perfect for your next celebration!</p>
+            
+            <div class="featured-product" id="featuredProduct">
+                <!-- Featured product loaded from CSV (tagged with featured="yes") -->
+            </div>
+        </div>
+    </section>
+
+    <!-- You May Also Like Section -->
+    <section class="you-may-like-section">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <p class="section-subtitle">Other popular products that pair well with your selection</p>
+            
+            <div class="products-grid-like" id="youMayLikeGrid">
+                <!-- 4 random products loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon"></span>
+                        <span class="logo-text">THE BANNER COMPANY</span>
+                    </div>
+                    <p>Making your celebrations extraordinary with high-quality party supplies.</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank" class="social-icon">f</a>
+                        <a href="https://instagram.com/thebannercompany" target="_blank" class="social-icon">📷</a>
+                        <!-- <a href="#" class="social-icon">🎵</a> -->
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="about.html">About Us & Mission</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Information</h4>
+                    <p>📍 First Floor, 41 Castle St, above Fathima Bakery, next to the 120 Optical, Ashok Nagar, Bengaluru, Karnataka 560025</p>
+                    <!-- <p>📞 (123) 456-7890</p>-->
+                    <p>✉️ info@thebannercompany.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 The Banner Company. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
