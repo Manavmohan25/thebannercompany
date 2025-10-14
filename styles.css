@@ -79,7 +79,7 @@ body {
 .hero {
     position: relative;
     height: 600px;
-    margin-top: 20px;        /* ✅ remove gap */
+    margin-top: 40px;        /* ✅ remove gap */
     padding-top: 70px;    /* ✅ pushes content down below fixed navbar */
     overflow: hidden;
     color: white;
