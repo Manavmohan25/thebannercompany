@@ -371,6 +371,28 @@ function setupFAQ() {
     });
     }
 }
+//Default Hero Images
+function validateHeroImages() {
+  const slides = document.querySelectorAll('.hero .hero-slide');
+  const fallback = '/assets/celebration.jpg'; // known existing image from Contact page
+
+  slides.forEach(slide => {
+    const m = /url\(["']?(.*?)["']?\)/.exec(slide.style.backgroundImage || '');
+    if (!m || !m[1]) return;
+
+    const img = new Image();
+    img.onload = () => {}; // ok
+    img.onerror = () => { slide.style.backgroundImage = `url('${fallback}')`; };
+    img.src = m[1];
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  validateHeroImages();
+});
+
+
+
 // HERO SLIDER (multiple hero images)
 function initHeroSlider() {
     const slider = document.querySelector('.hero');
