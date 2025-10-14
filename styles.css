@@ -44,6 +44,12 @@ body {
     align-items: center;
     padding: 15px 20px;
 }
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* ✅ allows button to move below logo on very narrow screens */
+}
 
 .nav-brand {
     display: flex;
@@ -74,6 +80,22 @@ body {
 .nav-link.active {
     color: var(--primary-pink);
 }
+/* ========== Mobile Navigation Toggle (Hamburger) ========== */
+.nav-toggle {
+  display: none;                     /* hidden on desktop */
+  background: var(--primary-pink);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.nav-toggle:hover {
+  background: #ff6b8f;
+}
+
 
 /* HERO SLIDER */
 .hero {
@@ -763,4 +785,38 @@ body {
     .contact-form-wrapper, .footer-content { grid-template-columns: 1fr; }
     .hero-buttons, .cta-buttons { flex-direction: column; }
     .page-header h1, .page-header-contact h1 { font-size: 32px; }
+}
+
+/* ========== Mobile Navbar Layout ========== */
+@media (max-width: 900px) {
+  /* Show the hamburger */
+  .nav-toggle {
+    display: inline-block;
+  }
+
+  /* Stack nav items in dropdown */
+  .nav-menu {
+    position: absolute;
+    right: 20px;
+    top: 70px; /* same height as navbar */
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 12px;
+    display: none;               /* hidden by default */
+    z-index: 999;
+  }
+
+  /* When JS toggles .open, make it visible */
+  .nav-menu.open {
+    display: flex;
+  }
+
+  /* Adjust link styles in mobile dropdown */
+  .nav-link {
+    color: #333;
+    font-weight: 500;
+  }
 }

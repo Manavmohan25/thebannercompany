@@ -368,6 +368,15 @@ function setupEventListeners() {
         setTimeout(()=>{ formMessage.className='form-message'; }, 5000);
     });
 }
+// ✅ Mobile menu toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.getElementById('mainNav');
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+  });
+}
+
 
 // Setup FAQ accordion
 function setupFAQ() {
