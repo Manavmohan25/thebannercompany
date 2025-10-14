@@ -79,10 +79,12 @@ body {
 .hero {
     position: relative;
     height: 600px;
-    margin-top: 70px;
+    margin-top: 0;        /* ✅ remove gap */
+    padding-top: 70px;    /* ✅ pushes content down below fixed navbar */
     overflow: hidden;
     color: white;
 }
+
 
 .hero-slide {
     position: absolute;
