@@ -1014,3 +1014,18 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   max-width: 60ch;               /* comfy line length */
   color: #555;                   /* optional: softer paragraph tone */
 }
+
+/* Contact page: left-align the subtitle under the H1 */
+.page-contact .section-subtitle {
+  text-align: left !important;   /* override any centering */
+  margin-left: 0 !important;     /* align edge with the H1 */
+  margin-top: 8px;
+  max-width: 60ch;               /* comfortable line length */
+  color: #555;                   /* optional softer tone */
+}
+
+/* If a parent container centers text, neutralize it on Contact */
+.page-contact .page-header .container,
+.page-contact .contact-header .container {
+  text-align: left !important;
+}
