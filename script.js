@@ -20,6 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
   catch(e) { console.error('Hero image validation error:', e); }
 });
 
+// Render rating with full/half/empty stars
+function renderRating(rating, max = 5) {
+  const full = Math.floor(rating);
+  const half = (rating - full) >= 0.5 ? 1 : 0;
+  const empty = Math.max(0, max - full - half);
+
+  let html = '<span class="rating" aria-label="Rating: ' + rating + ' out of ' + max + '">';
+  for (let i = 0; i < full; i++) html += '<span class="star full"></span>';
+  if (half) html += '<span class="star half"></span>';
+  for (let i = 0; i < empty; i++) html += '<span class="star"></span>';
+  html += '</span>';
+  return html;
+}
+
 // Load products from CSV file
 function loadProductsFromCSV() {
     fetch('products.csv')
@@ -227,50 +241,43 @@ function loadProducts() {
 
 // Load featured product
 function loadFeaturedProduct() {
-    const featuredProductDiv = document.getElementById('featuredProduct');
-    if (!featuredProductDiv) return;
-    
-    // Find product with featured="yes" or use first product
-    const featured = productsData.find(p => p.featured && p.featured.toLowerCase() === 'yes') || productsData[0];
-    
-    if (!featured) {
-        console.log('No featured product found');
-        return;
-    }
-    
-    console.log('Featured product:', featured.name);
-    
-    const rating = featured.rating || 0;
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStar;
-    
-    let stars = '★'.repeat(fullStars);
-    if (halfStar) stars += '⯨';
-    stars += '☆'.repeat(emptyStars);
-    
-    const priceFormatted = new Intl.NumberFormat('en-IN', { 
-        style: 'currency', 
-        currency: 'INR', 
-        maximumFractionDigits: 0 
-    }).format(featured.price || 0);
-    
-    const imagePath = featured.image || 'assets/placeholder-product.jpg';
-    const amazonLink = featured.amazon_link || 'https://www.amazon.in/s?k=party+supplies';
-    
-    featuredProductDiv.innerHTML = `
-        <div class="featured-product-image">
-            <img src="${imagePath}" alt="${featured.name}" onerror="this.src='https://via.placeholder.com/400x400/FF8BA7/FFFFFF?text=Featured+Product'">
-        </div>
-        <div class="featured-product-details">
-            <h3>${featured.name}</h3>
-            <div class="featured-rating">${stars} (${featured.reviews || 0} reviews)</div>
-            <p>${featured.description || ''}</p>
-            <div class="featured-price">${priceFormatted}</div>
-            <a href="${amazonLink}" target="_blank" class="btn btn-primary">Shop Now on Amazon</a>
-        </div>
-    `;
+  const featuredProductDiv = document.getElementById('featuredProduct');
+  if (!featuredProductDiv) return;
+
+  // Find product with featured="yes" or use first product
+  const featured = productsData.find(p => p.featured && p.featured.toLowerCase() === 'yes') || productsData[0];
+  if (!featured) return;
+
+  const priceFormatted = new Intl.NumberFormat('en-IN', {
+    style: 'currency', currency: 'INR', maximumFractionDigits: 0
+  }).format(featured.price || 0);
+
+  const imagePath  = featured.image || 'assets/placeholder-product.jpg';
+  const amazonLink = featured.amazon_link || 'https://www.amazon.in/s?k=party+supplies';
+
+  // NOTE: include a placeholder <span class="product-rating"></span> for the stars
+  featuredProductDiv.innerHTML = `
+    <div class="featured-product-image">
+      <img src="${imagePath}" alt="${featured.name}"
+           onerror="this.src='https://via.placeholder.com/400x400/FF8BA7/FFFFFF?text=Featured+Product'">
+    </div>
+    <div class="featured-product-details">
+      <h3>${featured.name}</h3>
+      <div class="featured-rating">
+        <span class="product-rating"></span>
+        &nbsp;(${featured.reviews || 0} reviews)
+      </div>
+      <p>${featured.description || ''}</p>
+      <div class="featured-price">${priceFormatted}</div>
+      <a href="${amazonLink}" target="_blank" class="btn btn-primary">Shop Now on Amazon</a>
+    </div>
+  `;
+
+  // Fill the stars
+  const ratingEl = featuredProductDiv.querySelector('.product-rating');
+  if (ratingEl) ratingEl.innerHTML = renderRating(featured.rating || 0);
 }
+
 
 // Load "You May Also Like" products
 function loadYouMayLike() {
@@ -299,42 +306,42 @@ function loadYouMayLike() {
 
 // Create product card HTML
 function createProductCard(product) {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    
-    const rating = product.rating || 0;
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStar;
-    
-    let stars = '★'.repeat(fullStars);
-    if (halfStar) stars += '⯨';
-    stars += '☆'.repeat(emptyStars);
-    
-    const priceFormatted = new Intl.NumberFormat('en-IN', { 
-        style: 'currency', 
-        currency: 'INR', 
-        maximumFractionDigits: 0 
-    }).format(product.price || 0);
-    
-    const imagePath = product.image || 'https://via.placeholder.com/400x400/FFE5EC/FF8BA7?text=Product+Image';
-    const amazonLink = product.amazon_link || 'https://www.amazon.in/s?k=party+supplies';
-    
-    card.innerHTML = `
-        <img src="${imagePath}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/400x400/FFE5EC/FF8BA7?text=Product+Image'">
-        <div class="product-info">
-            <h3 class="product-title">${product.name}</h3>
-            <div class="product-rating">${stars} (${product.reviews || 0})</div>
-            <p class="product-description">${product.description || ''}</p>
-            <div class="product-price">
-                <span class="current-price">${priceFormatted}</span>
-            </div>
-            <a href="${amazonLink}" target="_blank" class="product-button">Shop on Amazon</a>
-        </div>
-    `;
-    
-    return card;
+  const card = document.createElement('div');
+  card.className = 'product-card';
+
+  const priceFormatted = new Intl.NumberFormat('en-IN', {
+    style: 'currency', currency: 'INR', maximumFractionDigits: 0
+  }).format(product.price || 0);
+
+  const imagePath  = product.image || 'https://via.placeholder.com/400x400/FFE5EC/FF8BA7?text=Product+Image';
+  const amazonLink = product.amazon_link || 'https://www.amazon.in/s?k=party+supplies';
+
+  // NOTE: rating placeholder div is included
+  card.innerHTML = `
+    <img src="${imagePath}" alt="${product.name}" class="product-image"
+         onerror="this.src='https://via.placeholder.com/400x400/FFE5EC/FF8BA7?text=Product+Image'">
+    <div class="product-info">
+      <h3 class="product-title">${product.name}</h3>
+      <div class="product-rating"></div>
+      <p class="product-description">${product.description || ''}</p>
+      <div class="product-price">
+        <span class="current-price">${priceFormatted}</span>
+      </div>
+      <a href="${amazonLink}" target="_blank" class="product-button">Shop on Amazon</a>
+    </div>
+  `;
+
+  // Fill the stars
+  const ratingEl = card.querySelector('.product-rating');
+  if (ratingEl) {
+    const starsHTML = renderRating(product.rating || 0);
+    // If you want the review count here too, append it:
+    ratingEl.innerHTML = `${starsHTML} <span style="color:#666; font-size:12px;">(${product.reviews || 0})</span>`;
+  }
+
+  return card;
 }
+
 
 // Setup event listeners
 function setupEventListeners() {
