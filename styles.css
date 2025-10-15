@@ -1190,3 +1190,74 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   }
   .product-card .product-price { margin-top: 6px; }
 }
+
+/* ===== Featured Product: reduce vertical height (Products page only) ===== */
+.page-products .featured-product-image img {
+  height: clamp(220px, 30vw, 360px) !important;  /* desktop/tablet */
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .page-products .featured-product-image img {
+    height: clamp(200px, 45vw, 300px) !important;  /* mobile */
+  }
+
+  /* also trim spacing/text so the whole section feels shorter */
+  .page-products .featured-product { gap: 16px; }
+  .page-products .featured-product-details { padding: 12px 14px; }
+  .page-products .featured-product-details p {
+    font-size: 0.95rem; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+    margin: 8px 0 0;
+  }
+  .page-products .featured-price { margin-top: 8px; }
+}
+
+
+/* ===== Ensure uniform card height and aligned buttons ===== */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* evenly distribute content vertically */
+  height: 100%; /* let them stretch evenly inside their grid or scroll container */
+  padding-bottom: 1rem;
+}
+
+/* Inner structure: keep content & button properly spaced */
+.product-card .product-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-card .product-title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  min-height: 2.6em; /* ensures consistent space for 2-line titles */
+}
+
+.product-card .product-description {
+  flex-grow: 1; /* takes up remaining vertical space */
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Keep the price & button fixed near the bottom */
+.product-card .product-price {
+  margin-top: auto;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.product-card .amazon-button,
+.product-card button {
+  align-self: center;
+  margin-top: 0.8rem;
+}
