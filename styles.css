@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
     --primary-pink: #FF8BA7;
@@ -163,17 +164,23 @@ body {
     padding: 20px;
 }
 
+/* Hero typography refresh */
 .hero-title {
-    font-size: 48px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .hero-subtitle {
-    font-size: 24px;
-    margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.5rem);
+  margin-top: 0.5em;
+  line-height: 1.4;
 }
+
 
 .hero-buttons {
     display: flex;
@@ -565,11 +572,20 @@ body {
     overflow: hidden;
 }
 
+/* Featured product image – shorter */
 .featured-product-image img {
   width: 100%;
-  height: clamp(260px, 36vw, 420px);
+  height: clamp(220px, 30vw, 360px);   /* ↓ lowered all three numbers */
   object-fit: cover;
 }
+
+/* Even shorter on small screens */
+@media (max-width: 900px) {
+  .featured-product-image img {
+    height: clamp(200px, 45vw, 300px);
+  }
+}
+
 
 
 .featured-product-details {
@@ -1028,4 +1044,74 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 .page-contact .page-header .container,
 .page-contact .contact-header .container {
   text-align: left !important;
+}
+
+/* ===== Mobile: horizontal scroll rows ===== */
+@media (max-width: 900px) {
+  /* Home – Best Sellers */
+  .best-sellers-home .products-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .best-sellers-home .product-card {
+    min-width: 240px;             /* width of each card */
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Products page – main product list */
+  .page-products .products-section .products-grid-main {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page-products .products-section .product-card {
+    min-width: 240px;
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+
+  /* Products page – You may also like */
+  .page-products .you-may-like-section .products-grid-like {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page-products .you-may-like-section .product-card {
+    min-width: 220px;
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+}
+
+/* Cosmetic scrollbar tweaks */
+@media (max-width: 900px) {
+  .best-sellers-home .products-grid,
+  .page-products .products-section .products-grid-main,
+  .page-products .you-may-like-section .products-grid-like {
+    scrollbar-width: thin;                 /* Firefox */
+  }
+  .best-sellers-home .products-grid::-webkit-scrollbar,
+  .page-products .products-section .products-grid-main::-webkit-scrollbar,
+  .page-products .you-may-like-section .products-grid-like::-webkit-scrollbar {
+    height: 6px;                           /* Chrome/Safari */
+  }
+  .best-sellers-home .products-grid::-webkit-scrollbar-thumb,
+  .page-products .products-section .products-grid-main::-webkit-scrollbar-thumb,
+  .page-products .you-may-like-section .products-grid-like::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+  }
 }
