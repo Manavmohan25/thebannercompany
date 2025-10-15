@@ -181,6 +181,10 @@ body {
   line-height: 1.4;
 }
 
+.hero-title, .hero-subtitle {
+  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
 
 .hero-buttons {
     display: flex;
@@ -1114,4 +1118,75 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     background: rgba(0,0,0,0.2);
     border-radius: 4px;
   }
+}
+
+/* ===== Mobile: smaller horizontal cards ===== */
+@media (max-width: 900px) {
+  /* Home – Best Sellers row */
+  .best-sellers-home .products-grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 0 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .best-sellers-home .product-card {
+    flex: 0 0 180px;         /* ↓ narrower cards */
+    max-width: 180px;
+    min-width: 180px;
+    scroll-snap-align: start;
+  }
+  .best-sellers-home .product-image {
+    height: 170px;           /* shorter image so cards aren’t tall */
+    object-fit: cover;
+  }
+
+  /* Products page – main product list row */
+  .page-products .products-section .products-grid-main {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 0 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page-products .products-section .product-card {
+    flex: 0 0 180px;
+    max-width: 180px;
+    min-width: 180px;
+    scroll-snap-align: start;
+  }
+  .page-products .products-section .product-image {
+    height: 170px;
+    object-fit: cover;
+  }
+
+  /* Products page – "You may also like" row */
+  .page-products .you-may-like-section .products-grid-like {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 0 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .page-products .you-may-like-section .product-card {
+    flex: 0 0 170px;         /* a tad smaller for the recs row */
+    max-width: 170px;
+    min-width: 170px;
+    scroll-snap-align: start;
+  }
+  .page-products .you-may-like-section .product-image {
+    height: 160px;
+    object-fit: cover;
+  }
+
+  /* tighten text so cards don’t get tall */
+  .product-card .product-title { font-size: 0.95rem; line-height: 1.2; }
+  .product-card .product-description {
+    font-size: 0.9rem; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .product-card .product-price { margin-top: 6px; }
 }
