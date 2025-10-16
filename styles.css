@@ -135,9 +135,9 @@ body {
 }
 
 .logo-img {
-  height: 50px;              /* logical height to control navbar */
+  height: 70px;              /* logical height to control navbar */
   width: auto;
-  transform: scale(1.9);     /* visually make logo almost 2× bigger */
+  transform: scale(2.2);     /* visually make logo almost 2× bigger */
   transform-origin: center;
   display: block;
   object-fit: contain;
@@ -160,7 +160,7 @@ body {
   }
 
   .logo-img {
-    transform: scale(1.7);          /* slightly smaller scale for mobile */
+    transform: scale(1.9);          /* slightly smaller scale for mobile */
     transform-origin: center left;  /* ensures scaling doesn’t push it off-screen */
   }
 }
