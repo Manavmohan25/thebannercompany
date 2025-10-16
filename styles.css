@@ -1048,31 +1048,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   text-align: left !important;
 }
 
-/* ===== Mobile: horizontal scroll rows ===== */
-
-
-@media (max-width: 900px) {
-  /* Products page – main product list */
-  .page-products .products-section .products-grid-main {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Products page – You may also like */
-  .page-products .you-may-like-section .products-grid-like {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
 /* Cosmetic scrollbar tweaks */
 @media (max-width: 900px) {
   .best-sellers-home .products-grid,
@@ -1399,43 +1374,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   margin-top: 10px;
 }
 
-/* =====================================================
-   Vertically center only the HERO SUBTITLE (Products & About)
-   ===================================================== */
-
-/* Base: make sure hero content uses flex (so subtitle can move) */
-.page-products .hero.hero--products .hero-content,
-.page-about   .hero.hero--about    .hero-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* keep title near top by default */
-  align-items: center;
-  text-align: center;
-  position: relative;
-  min-height: calc(100vh - 70px); /* hero height minus navbar */
-}
-
-/* Center only the subtitle vertically */
-.page-products .hero.hero--products .hero-subtitle,
-.page-about   .hero.hero--about    .hero-subtitle {
-  position: absolute;
-  top: 50%;                       /* halfway down hero */
-  left: 50%;
-  transform: translate(-50%, -50%); /* truly centered */
-  width: 90%;
-  text-align: center;
-  font-size: clamp(1rem, 2.6vw, 1.4rem);
-  line-height: 1.4;
-}
-
-/* Slightly reduce size on smaller screens */
-@media (max-width: 900px) {
-  .page-products .hero.hero--products .hero-subtitle,
-  .page-about   .hero.hero--about    .hero-subtitle {
-    font-size: clamp(0.9rem, 2.8vw, 1.2rem);
-  }
-}
-
 /* ================================================
    Vertically center only the HERO SUBTITLE (Products & About)
    — without stretching the hero height
@@ -1453,18 +1391,18 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 .page-products .hero.hero--products .hero-subtitle,
 .page-about   .hero.hero--about    .hero-subtitle {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
   text-align: center;
   font-size: clamp(1rem, 2.6vw, 1.4rem);
   line-height: 1.4;
+  z-index: 3;          /* <-- add this */
 }
 
 /* Optional fine-tune (push slightly lower if overlapping title) */
-.page-products .hero.hero--products .hero-subtitle { top: 55%; }
-.page-about   .hero.hero--about    .hero-subtitle { top: 55%; }
+.page-products .hero.hero--products .hero-subtitle { top: 58%; }
+.page-about   .hero.hero--about    .hero-subtitle { top: 58%; }
 
 /* Keep hero’s normal height as it was originally */
 .page-products .hero.hero--products,
@@ -1478,6 +1416,7 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
    ================================================ */
 .page-products .you-may-like-section .products-grid-like {
   align-items: stretch;                 /* equal card heights in the row */
+  grid-auto-rows: 1fr; 
 }
 
 /* Card and inner column */
@@ -1486,6 +1425,8 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   flex-direction: column;
   height: 100%;
 }
+
+
 
 /* If .product-info exists, make it the flexible column */
 .page-products .you-may-like-section .product-info {
@@ -1542,4 +1483,37 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   margin-top: auto;                      /* key: pushes to bottom */
   width: 100%;
   align-self: stretch;
+}
+
+
+/* === You May Also Like: hard-lock button baselines across all cards === */
+.page-products .you-may-like-section .product-card {
+  position: relative;                 /* so the button can anchor to bottom */
+  padding-bottom: 84px;               /* reserve space for the button */
+}
+
+.page-products .you-may-like-section .product-button,
+.page-products .you-may-like-section .amazon-button,
+.page-products .you-may-like-section .product-card a.button,
+.page-products .you-may-like-section .product-card button {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  margin-top: 0;                      /* ignore previous auto margin */
+  width: calc(100% - 40px);           /* match the left/right inset */
+  align-self: stretch;
+}
+
+@media (max-width: 900px) {
+  .page-products .you-may-like-section .product-card { padding-bottom: 76px; }
+  .page-products .you-may-like-section .product-button,
+  .page-products .you-may-like-section .amazon-button,
+  .page-products .you-may-like-section .product-card a.button,
+  .page-products .you-may-like-section .product-card button {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: calc(100% - 28px);
+  }
 }
