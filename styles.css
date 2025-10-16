@@ -137,7 +137,7 @@ body {
 .logo-img {
   height: 50px;              /* logical height to control navbar */
   width: auto;
-  transform: scale(5);     /* visually make logo almost 2× bigger */
+  transform: scale(1.9);     /* visually make logo almost 2× bigger */
   transform-origin: center;
   display: block;
   object-fit: contain;
