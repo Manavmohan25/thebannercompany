@@ -174,13 +174,13 @@ function loadDefaultProducts() {
             featured: "" 
         },
         { 
-            name: "Official Teenager Birthday Decoration Kit ", 
+            name: "Golden Acrylic Cake Topper ", 
             category: "Seasonal", 
-            description: "Gold & White Balloon Garland, Banner, Cake & Cupcake Toppers – 13th Birthday Party Supplies for Boys & Girls (30 Pcs)", 
-            price: 329, 
-            rating: 1.8, 
-            reviews: 4, 
-            image: "https://m.media-amazon.com/images/I/81B1i8sJLsL._SL1500_.jpg",
+            description: "Number Five Cake Decoration for 5th Birthday | Wedding, Anniversary, Party Supplies", 
+            price: 199, 
+            rating: 3.7, 
+            reviews: 57, 
+            image: "https://m.media-amazon.com/images/I/71GHabYWZEL._SL1500_.jpg",
             amazon_link: "https://www.amazon.in/gp/product/B0B7HXQPMM?th=1", 
             featured: "" 
         },
