@@ -1436,3 +1436,110 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   }
 }
 
+/* ================================================
+   Vertically center only the HERO SUBTITLE (Products & About)
+   — without stretching the hero height
+   ================================================ */
+.page-products .hero.hero--products .hero-content,
+.page-about   .hero.hero--about    .hero-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Center only the subtitle absolutely */
+.page-products .hero.hero--products .hero-subtitle,
+.page-about   .hero.hero--about    .hero-subtitle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  text-align: center;
+  font-size: clamp(1rem, 2.6vw, 1.4rem);
+  line-height: 1.4;
+}
+
+/* Optional fine-tune (push slightly lower if overlapping title) */
+.page-products .hero.hero--products .hero-subtitle { top: 55%; }
+.page-about   .hero.hero--about    .hero-subtitle { top: 55%; }
+
+/* Keep hero’s normal height as it was originally */
+.page-products .hero.hero--products,
+.page-about   .hero.hero--about {
+  min-height: clamp(320px, 55vh, 600px); /* matches your earlier hero size */
+}
+
+/* ================================================
+   You May Also Like – make every card align, even if
+   one card is missing rating/description/wrapper
+   ================================================ */
+.page-products .you-may-like-section .products-grid-like {
+  align-items: stretch;                 /* equal card heights in the row */
+}
+
+/* Card and inner column */
+.page-products .you-may-like-section .product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* If .product-info exists, make it the flexible column */
+.page-products .you-may-like-section .product-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* If .product-info is missing for any card, treat everything
+   after the image as a flexible stack too (fallback) */
+.page-products .you-may-like-section .product-card > :not(.product-image) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* Keep title height consistent */
+.page-products .you-may-like-section .product-title {
+  min-height: 2.6em;                    /* ~2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Reserve space for rating; if not present, height stays even */
+.page-products .you-may-like-section .product-rating { 
+  min-height: 1.25rem;
+  margin-bottom: 8px;
+}
+
+/* Description flexes to fill the middle (when present) */
+.page-products .you-may-like-section .product-description {
+  flex: 1 1 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+/* Price near the bottom (helps when price exists) */
+.page-products .you-may-like-section .product-price {
+  font-weight: 600;
+  min-height: 1.4rem;                   /* keep stable if shorter */
+}
+
+/* 🔒 Hard lock: ALWAYS pin the button to the bottom
+   – works for .product-button or .amazon-button or <a/button> */
+.page-products .you-may-like-section .product-card .product-button,
+.page-products .you-may-like-section .product-card .amazon-button,
+.page-products .you-may-like-section .product-card a.button,
+.page-products .you-may-like-section .product-card button {
+  margin-top: auto;                      /* key: pushes to bottom */
+  width: 100%;
+  align-self: stretch;
+}
