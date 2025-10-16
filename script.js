@@ -181,7 +181,7 @@ function loadDefaultProducts() {
             rating: 1.8, 
             reviews: 4, 
             image: "https://m.media-amazon.com/images/I/81B1i8sJLsL._SL1500_.jpg",
-            amazon_link: "https://www.amazon.in/dp/B0FDCGYCMK?th=1", 
+            amazon_link: "https://www.amazon.in/gp/product/B0B7HXQPMM?th=1", 
             featured: "" 
         },
     ];
