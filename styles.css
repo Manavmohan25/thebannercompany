@@ -1251,19 +1251,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   margin-top: 10px;
 }
 
-/* ==== You May Also Like: align buttons across cards ==== */
-
-.you-may-like-section .product-image {
-  flex: 0 0 auto;
-  width: 100%;
-}
-
-.you-may-like-section .product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;                    /* take remaining height */
-}
-
 /* keep title height consistent (2 lines max) */
 .you-may-like-section .product-title {
   font-weight: 600;
