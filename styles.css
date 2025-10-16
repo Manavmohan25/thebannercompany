@@ -49,12 +49,7 @@ body {
     z-index: 1000;
 }
 
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-}
+
 .navbar .container {
   display: flex;
   justify-content: space-between;
@@ -379,10 +374,13 @@ body {
 }
 
 .story-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
+  width: 100%;
+  height: auto;          /* show full image */
+  object-fit: contain;
+  display: block;
 }
+
+
 
 .story-text {
     flex: 1;
@@ -1051,22 +1049,7 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 }
 
 /* ===== Mobile: horizontal scroll rows ===== */
-@media (max-width: 900px) {
-  /* Home – Best Sellers */
-  .best-sellers-home .products-grid {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .best-sellers-home .product-card {
-    min-width: 240px;             /* width of each card */
-    scroll-snap-align: start;
-    flex: 0 0 auto;
-  }
-}
+
 
 @media (max-width: 900px) {
   /* Products page – main product list */
@@ -1078,11 +1061,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     padding-bottom: 8px;
     -webkit-overflow-scrolling: touch;
   }
-  .page-products .products-section .product-card {
-    min-width: 240px;
-    scroll-snap-align: start;
-    flex: 0 0 auto;
-  }
 
   /* Products page – You may also like */
   .page-products .you-may-like-section .products-grid-like {
@@ -1092,11 +1070,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     scroll-snap-type: x mandatory;
     padding-bottom: 8px;
     -webkit-overflow-scrolling: touch;
-  }
-  .page-products .you-may-like-section .product-card {
-    min-width: 220px;
-    scroll-snap-align: start;
-    flex: 0 0 auto;
   }
 }
 
@@ -1214,55 +1187,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 }
 
 
-/* ===== Ensure uniform card height and aligned buttons ===== */
-.product-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* evenly distribute content vertically */
-  height: 100%; /* let them stretch evenly inside their grid or scroll container */
-  padding-bottom: 1rem;
-}
-
-/* Inner structure: keep content & button properly spaced */
-.product-card .product-details {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.product-card .product-title {
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.3;
-  margin-bottom: 6px;
-  min-height: 2.6em; /* ensures consistent space for 2-line titles */
-}
-
-.product-card .product-description {
-  flex-grow: 1; /* takes up remaining vertical space */
-  font-size: 0.9rem;
-  line-height: 1.4;
-  margin-bottom: 0.8rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Keep the price & button fixed near the bottom */
-.product-card .product-price {
-  margin-top: auto;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.product-card .amazon-button,
-.product-card button {
-  align-self: center;
-  margin-top: 0.8rem;
-}
-
-
 /* === FIX: uniform product-card height + aligned buttons (works with .product-info) === */
 .product-card {
   display: flex;
@@ -1328,15 +1252,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 }
 
 /* ==== You May Also Like: align buttons across cards ==== */
-.you-may-like-section .products-grid-like { 
-  align-items: stretch;              /* make cards equal height in the row */
-}
-
-.you-may-like-section .product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
 
 .you-may-like-section .product-image {
   flex: 0 0 auto;
@@ -1410,16 +1325,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     font-size: 80% !important;   /* ↓ about 20% smaller */
   }
 
-  /* Center hero content vertically & horizontally on Products */
-.page-products .hero.hero--products .hero-content {
-  min-height: calc(100% - 70px); /* subtract fixed navbar padding-top */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-
   .page-products .hero.hero--products .hero-subtitle {
     font-size: 90%;              /* slightly smaller for mobile */
     text-align: center;
@@ -1439,19 +1344,6 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   }
 }
 
-
-/* ==========================================================
-   FIX 1: Products & About heroes – center content vertically
-   (compensate for the 70px top padding under the fixed navbar)
-   ========================================================== */
-.page-products .hero.hero--products .hero-content,
-.page-about   .hero.hero--about    .hero-content {
-  min-height: calc(100% - 70px);  /* subtract the navbar clearance */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
 
 /* (Optional) nudge subtitle size a touch on mobile only */
 @media (max-width: 900px) {
@@ -1520,32 +1412,40 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
   margin-top: 10px;
 }
 
-/* ========== Our Story (founder image) – show full image, no crop ========== */
+/* =====================================================
+   Vertically center only the HERO SUBTITLE (Products & About)
+   ===================================================== */
 
-/* Make sure the image itself never crops */
-.story-image img {
-  width: 100%;
-  height: auto;              /* keeps full image proportions */
-  object-fit: contain;       /* in case a height sneaks in elsewhere */
-  display: block;
+/* Base: make sure hero content uses flex (so subtitle can move) */
+.page-products .hero.hero--products .hero-content,
+.page-about   .hero.hero--about    .hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* keep title near top by default */
+  align-items: center;
+  text-align: center;
+  position: relative;
+  min-height: calc(100vh - 70px); /* hero height minus navbar */
 }
 
-/* If the container had a fixed height anywhere, neutralize it */
-.story-image {
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible;         /* don’t clip the image */
+/* Center only the subtitle vertically */
+.page-products .hero.hero--products .hero-subtitle,
+.page-about   .hero.hero--about    .hero-subtitle {
+  position: absolute;
+  top: 50%;                       /* halfway down hero */
+  left: 50%;
+  transform: translate(-50%, -50%); /* truly centered */
+  width: 90%;
+  text-align: center;
+  font-size: clamp(1rem, 2.6vw, 1.4rem);
+  line-height: 1.4;
 }
 
-/* Mobile: stack image above text and give breathing room */
+/* Slightly reduce size on smaller screens */
 @media (max-width: 900px) {
-  .story-content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;               /* space between image and text */
-  }
-  .story-image,
-  .story-text {
-    width: 100%;
+  .page-products .hero.hero--products .hero-subtitle,
+  .page-about   .hero.hero--about    .hero-subtitle {
+    font-size: clamp(0.9rem, 2.8vw, 1.2rem);
   }
 }
+
