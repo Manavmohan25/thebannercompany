@@ -1398,3 +1398,42 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
 /* If you only want this on mobile, wrap everything above in: 
 @media (max-width: 900px) { ... } 
 */
+
+/* ==========================================================
+   MOBILE TWEAKS: Hero Text & Alignment (Home, Products, About)
+   ========================================================== */
+@media (max-width: 900px) {
+
+  /* === 1. HOME PAGE: reduce heading text size by ~20% === */
+  .page-home .hero-title,
+  .hero.hero--home .hero-title {
+    font-size: 80% !important;   /* ↓ about 20% smaller */
+  }
+
+  /* === 2. PRODUCTS PAGE: center subtitle in hero === */
+  .page-products .hero.hero--products .hero-content {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-products .hero.hero--products .hero-subtitle {
+    font-size: 90%;              /* slightly smaller for mobile */
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  /* === 3. ABOUT US & MISSION PAGE === */
+  .page-about .hero.hero--about .hero-title {
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.2rem) !important; /* fits in one line */
+    text-align: center;
+  }
+
+  .page-about .hero.hero--about .hero-subtitle {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 90%;
+  }
+}
