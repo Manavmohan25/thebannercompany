@@ -27,6 +27,18 @@ p, li, a, button, input, textarea { font-size: clamp(0.95rem, 0.5vw + 0.85rem, 1
 /* Containers breathe on small screens, stay neat on large */
 .container { padding: 0 clamp(12px, 3vw, 24px); }
 
+/* Rating Star Styles */
+.rating { display: inline-flex; gap: 4px; line-height: 1; font-size: 18px; }
+.star { position: relative; display: inline-block; width: 1em; height: 1em; }
+.star::before { content: '☆'; color: #cfcfcf; position: absolute; inset: 0; }
+.star.full::before { content: '★'; color: #ffc107; }
+.star.half::after {
+  content: '★';
+  color: #ffc107;
+  position: absolute; inset: 0;
+  width: 50%; overflow: hidden;
+}
+
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,7 +66,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* ✅ allows button to move below logo on very narrow screens */
+  flex-wrap: wrap;
+  min-height: 60px; /* Reduced height */
 }
 
 .nav-brand {
@@ -65,8 +78,8 @@ body {
     font-size: 18px;
 }
 .nav-brand {
-  text-decoration: none;   /* keep current look */
-  color: inherit;          /* use navbar text color */
+  text-decoration: none;
+  color: inherit;
   cursor: pointer;
 }
 .nav-brand:hover { opacity: 0.9; }
@@ -95,7 +108,7 @@ body {
 }
 /* ========== Mobile Navigation Toggle (Hamburger) ========== */
 .nav-toggle {
-  display: none;                     /* hidden on desktop */
+  display: none;
   background: var(--primary-pink);
   color: #fff;
   border: 0;
@@ -109,13 +122,58 @@ body {
   background: #ff6b8f;
 }
 
+/* ==========================================================
+   NAVBAR LOGO — Large, Centered, No Cropping, Fixed Height
+   ========================================================== */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* center the logo horizontally */
+  height: 60px;              /* keeps navbar height constant */
+  overflow: visible;         /* ensure scaled logo isn't cropped */
+  position: relative;
+}
+
+.logo-img {
+  height: 50px;              /* logical height to control navbar */
+  width: auto;
+  transform: scale(5);     /* visually make logo almost 2× bigger */
+  transform-origin: center;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  margin: 0 auto;
+}
+
+/* Optional: hover subtle zoom (desktop only) */
+@media (hover: hover) {
+  .logo-img:hover {
+    transform: scale(2.05);
+  }
+}
+
+/* === Mobile Adjustments === */
+@media (max-width: 900px) {
+  .nav-brand {
+    justify-content: flex-start;    /* move logo slightly left but not touching */
+    padding-left: 12px;             /* space from left screen edge */
+  }
+
+  .logo-img {
+    transform: scale(1.7);          /* slightly smaller scale for mobile */
+    transform-origin: center left;  /* ensures scaling doesn’t push it off-screen */
+  }
+}
+
+
+
 
 /* HERO SLIDER */
 .hero {
   position: relative;
   min-height: clamp(380px, 60vh, 680px);
   margin-top: 50px;
-  padding-top: 70px; /* keeps content below fixed navbar */
+  padding-top: 60px; /* Adjusted for navbar height */
   overflow: hidden;
   color: white;
 }
@@ -198,6 +256,7 @@ body {
     font-weight: 500;
     text-decoration: none;
     display: inline-block;
+    text-align: center;
 }
 
 .btn-primary {
@@ -375,7 +434,7 @@ body {
 
 .story-image img {
   width: 100%;
-  height: auto;          /* show full image */
+  height: auto;
   object-fit: contain;
   display: block;
 }
@@ -399,13 +458,6 @@ body {
 }
 
 /* Products Grid */
-/* .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    margin: 50px 0;
-} */
-/* Fluid product grids */
 .products-grid,
 .products-grid-main,
 .products-grid-like {
@@ -413,6 +465,8 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: clamp(16px, 3vw, 30px);
   margin: 50px 0;
+  align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 
@@ -423,13 +477,6 @@ body {
     background: var(--light-pink);
 }
 
-/* Products Main Grid (First 6) */
-/* .products-grid-main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin: 50px 0;
-} */
 
 /* Products Scrollable (Remaining) */
 .products-scrollable-wrapper {
@@ -474,10 +521,12 @@ body {
 .product-card {
     background: white;
     border-radius: 15px;
-    overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     transition: transform 0.3s;
     position: relative;
+    padding-bottom: 80px; /* Reserve space for the button */
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
@@ -487,21 +536,29 @@ body {
 
 .product-image {
   width: 100%;
-  height: clamp(200px, 28vw, 260px);
+  height: clamp(180px, 25vw, 220px);
   object-fit: cover;
+  flex-shrink: 0; /* Prevent image from shrinking */
 }
-
 
 .product-info {
     padding: 20px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Make this container fill the available space */
 }
 
 .product-title {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: bold;
     margin-bottom: 10px;
     color: #333;
+    min-height: 2.6em; /* Reserve space for 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .product-rating {
@@ -512,26 +569,31 @@ body {
 
 .product-description {
     color: var(--gray);
-    font-size: 14px;
+    font-size: 0.9rem;
     margin-bottom: 15px;
-    line-height: 1.6;
+    line-height: 1.5;
+    flex-grow: 1; /* This makes the description push the price down */
 }
 
 .product-price {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* This centers the price */
     align-items: center;
     margin-bottom: 15px;
 }
 
 .current-price {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--primary-pink);
 }
 
 .product-button {
-    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    width: calc(100% - 40px);
     padding: 12px;
     background: white;
     color: var(--primary-pink);
@@ -550,9 +612,8 @@ body {
     color: white;
 }
 
-/* Featured Product Section */
 .featured-product-section {
-    padding: 80px 20px;
+    padding: 60px 20px;
     background: var(--light-pink);
     text-align: center;
 }
@@ -560,12 +621,12 @@ body {
 .featured-product {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 30px;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 40px;
     background: white;
     border-radius: 20px;
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
@@ -574,25 +635,22 @@ body {
     overflow: hidden;
 }
 
-/* Featured product image – shorter */
 .featured-product-image img {
   width: 100%;
-  height: clamp(220px, 30vw, 360px);   /* ↓ lowered all three numbers */
+  height: clamp(200px, 25vw, 280px);
   object-fit: cover;
 }
 
-/* Even shorter on small screens */
-@media (max-width: 900px) {
-  .featured-product-image img {
-    height: clamp(200px, 45vw, 300px);
-  }
+.featured-product-details {
+    text-align: center;
 }
 
-
-
-.featured-product-details {
+.featured-product-details h3,
+.featured-product-details p,
+.featured-rating {
     text-align: left;
 }
+
 
 .featured-product-details h3 {
     font-size: 32px;
@@ -609,15 +667,15 @@ body {
 .featured-product-details p {
     font-size: 16px;
     color: var(--gray);
-    line-height: 1.8;
-    margin-bottom: 25px;
+    line-height: 1.7;
+    margin-bottom: 12px;
 }
 
 .featured-price {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
     color: var(--primary-pink);
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .featured-product-details .btn {
@@ -631,13 +689,6 @@ body {
     background: white;
     text-align: center;
 }
-
-/* .products-grid-like {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    margin-top: 50px;
-} */
 
 /* Contact Cards */
 .contact-cards {
@@ -693,8 +744,8 @@ body {
   width: 18px;
   height: 18px;
   display: block;
-  fill: #fff;              /* icon color */
-  stroke: #fff;            /* for outlined icons (Instagram) */
+  fill: #fff;
+  stroke: #fff;
   stroke-width: 1.5;
 }
 
@@ -840,13 +891,11 @@ body {
     margin-bottom: 40px;
 }
 
-/* Footer-specific social icons: align left */
 .footer .social-icons {
-  justify-content: flex-start;   /* left align */
+  justify-content: flex-start;
   margin-left: 0;
 }
 
-/* keep them nicely centered inside their circles */
 .footer .social-icon {
   display: flex;
   align-items: center;
@@ -862,779 +911,134 @@ body {
 .footer-contact p { margin-bottom: 10px; color: #aaa; font-size: 14px; }
 .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #333; color: #aaa; }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-menu { flex-direction: column; gap: 10px; }
-    .hero-title { font-size: 32px; }
-    .products-grid { grid-template-columns: 1fr; }
-    .products-grid-main { grid-template-columns: 1fr; }
-    .products-grid-like { grid-template-columns: 1fr; }
-    .featured-product { grid-template-columns: 1fr; }
-    .story-content { flex-direction: column; }
-    .contact-form-wrapper, .footer-content { grid-template-columns: 1fr; }
-    .hero-buttons, .cta-buttons { flex-direction: column; }
-    .page-header h1, .page-header-contact h1 { font-size: 32px; }
-}
 
-/* ========== Mobile Navbar Layout ========== */
-@media (max-width: 900px) {
-  /* Show the hamburger */
-  .nav-toggle {
-    display: inline-block;
-  }
-
-  /* Stack nav items in dropdown */
-  .nav-menu {
-    position: absolute;
-    right: 20px;
-    top: 70px; /* same height as navbar */
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    padding: 12px 16px;
-    flex-direction: column;
-    gap: 12px;
-    display: none;               /* hidden by default */
-    z-index: 999;
-  }
-
-  /* When JS toggles .open, make it visible */
-  .nav-menu.open {
-    display: flex;
-  }
-
-  /* Adjust link styles in mobile dropdown */
-  .nav-link {
-    color: #333;
-    font-weight: 500;
-  }
-}
-
-@media (max-width: 900px) {
-  .featured-product { grid-template-columns: 1fr; }
-  .story-content { flex-direction: column; gap: clamp(20px, 5vw, 40px); }
-  .contact-form-wrapper { grid-template-columns: 1fr; gap: clamp(20px, 4vw, 40px); }
-  .hero-buttons, .cta-buttons { flex-wrap: wrap; gap: clamp(10px, 2vw, 20px); }
-}
-a, button { min-height: 44px; }
-input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
-
-/* ===== Rating stars ===== */
-.rating { display: inline-flex; gap: 4px; line-height: 1; font-size: 18px; }
-.star { position: relative; display: inline-block; width: 1em; height: 1em; }
-
-/* empty star (outline) */
-.star::before { content: '☆'; color: #cfcfcf; position: absolute; inset: 0; }
-
-/* full star */
-.star.full::before { content: '★'; color: #ffc107; }
-
-/* half star: gold star clipped to 50% */
-.star.half::after {
-  content: '★';
-  color: #ffc107;
-  position: absolute; inset: 0;
-  width: 50%; overflow: hidden;
-}
-
-/* ===== Home page color swaps (overrides) ===== */
-
-/* Best Sellers → white */
-.best-sellers-home {
-  background-color: #ffffff !important;
-  color: #111;
-}
-
-/* About the Banner Company block on home → pink shade */
-.about-home,
-.mission-section.home-about {          /* in case your about block uses mission-section */
-  background-color: #FFE5EC !important;  /* soft pink; tweak if you want a different shade */
-  color: #111;
-}
-
-/* "Let's Celebrate / Contact us" preview on home → white */
-.contact-preview,
-.contact-cta.home-preview {            /* in case that section uses contact-cta */
-  background-color: #ffffff !important;
-  color: #111;
-}
-
-/* Optional: ensure cards still look good on white backgrounds */
-.best-sellers-home .product-card { background: #fff; }
-
-/* Optional: headings stay readable on pink */
-.about-home h2,
-.mission-section.home-about h2 { color: #111; }
-
-
-/* ==== Products page overrides ==== */
-
-/* Make hero behave nicely under the fixed navbar */
-.hero.hero--products {
-  margin-top: 0;          /* remove any gap above */
-  padding-top: 70px;      /* clears the fixed navbar height */
-  min-height: clamp(320px, 55vh, 600px);
-}
-
-/* Section colors (Products page only) */
-.page-products .products-section {        /* product list */
-  background: #ffffff !important;
-  color: #111;
-}
-
-.page-products .featured-product-section { /* featured product */
-  background: var(--light-pink) !important;  /* soft pink brand shade */
-  color: #111;
-}
-
-.page-products .you-may-like-section {    /* you may also like */
-  background: #ffffff !important;
-  color: #111;
-}
-
-/* ==== About page overrides ==== */
-
-/* Hero behavior under fixed navbar (reuse home hero styles) */
+/* ==== Products & About Page Overrides ==== */
+.hero.hero--products,
 .hero.hero--about {
-  margin-top: 0;           /* remove any gap */
-  padding-top: 70px;       /* clear the fixed navbar height */
+  margin-top: 0;
+  padding-top: 60px;
   min-height: clamp(320px, 55vh, 600px);
 }
 
-/* Colors requested:
-   - Our Mission  -> white
-   - Our Story    -> grey
-*/
+/* This positions the title at the top */
+.page-products .hero-content,
+.page-about .hero-content {
+  justify-content: flex-start;
+  padding-top: clamp(1.5rem, 6vh, 3rem);
+}
+
+/* This removes the subtitle from the title's influence */
+.page-products .hero-subtitle,
+.page-about .hero-subtitle {
+  position: absolute;
+  top: 200%; /* Adjust this percentage to move it lower or higher */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  margin: 0;
+}
+
+
+/* Home Page Section Color Swaps */
+.page-home .best-sellers-home {
+    background-color: #ffffff !important;
+}
+.page-home .about-home {
+    background-color: var(--light-pink) !important;
+}
+.page-home .contact-preview {
+    background-color: #ffffff !important;
+}
+
+
+/* Section colors */
+.page-products .products-section,
 .page-about .mission-section {
   background: #ffffff !important;
   color: #111;
 }
 
-.page-about .story-section {
-  background: #f5f5f7 !important;   /* soft grey */
+.page-products .featured-product-section {
+  background: var(--light-pink) !important;
   color: #111;
 }
 
-/* (Optional) tighten contrast for headings on grey */
-.page-about .story-section h2 { color: #111; }
-
-/* ===== Contact page header alignment ===== */
-.page-contact .page-header .container {
-  text-align: left;              /* stop centering everything */
+.page-products .you-may-like-section,
+.page-about .story-section {
+  background: #f5f5f7 !important;
+  color: #111;
 }
 
-.page-contact .page-header h1,
-.page-contact .page-header p {
-  margin-left: 0;                /* ensure left edge aligns */
-}
-
-.page-contact .page-header p {
-  max-width: 60ch;               /* comfy line length */
-  color: #555;                   /* optional: softer paragraph tone */
-}
-
-/* Contact page: left-align the subtitle under the H1 */
-.page-contact .section-subtitle {
-  text-align: left !important;   /* override any centering */
-  margin-left: 0 !important;     /* align edge with the H1 */
-  margin-top: 8px;
-  max-width: 60ch;               /* comfortable line length */
-  color: #555;                   /* optional softer tone */
-}
-
-/* If a parent container centers text, neutralize it on Contact */
-.page-contact .page-header .container,
-.page-contact .contact-header .container {
-  text-align: left !important;
-}
-
-/* Cosmetic scrollbar tweaks */
+/* Responsive */
 @media (max-width: 900px) {
-  .best-sellers-home .products-grid,
-  .page-products .products-section .products-grid-main,
-  .page-products .you-may-like-section .products-grid-like {
-    scrollbar-width: thin;                 /* Firefox */
-  }
-  .best-sellers-home .products-grid::-webkit-scrollbar,
-  .page-products .products-section .products-grid-main::-webkit-scrollbar,
-  .page-products .you-may-like-section .products-grid-like::-webkit-scrollbar {
-    height: 6px;                           /* Chrome/Safari */
-  }
-  .best-sellers-home .products-grid::-webkit-scrollbar-thumb,
-  .page-products .products-section .products-grid-main::-webkit-scrollbar-thumb,
-  .page-products .you-may-like-section .products-grid-like::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.2);
-    border-radius: 4px;
-  }
+    .nav-menu {
+        position: absolute;
+        right: 20px;
+        top: 60px; /* Adjusted for shorter navbar */
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 12px;
+        display: none;
+        z-index: 999;
+    }
+
+    .featured-product { grid-template-columns: 1fr; }
+    .story-content { flex-direction: column; }
+    .contact-form-wrapper, .footer-content { grid-template-columns: 1fr; }
+    .hero-buttons, .cta-buttons { flex-direction: column; }
+    .page-header h1, .page-header-contact h1 { font-size: 32px; }
+
+    .nav-toggle { display: inline-block; }
+    .nav-menu.open { display: flex; }
+
+    /* Convert product grids to horizontal scroll on mobile */
+    .best-sellers-home .products-grid,
+    .page-products .products-section .products-grid-main,
+    .page-products .you-may-like-section .products-grid-like {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 4px 4px 12px 4px;
+        margin-left: -12px;
+        margin-right: -12px;
+        scrollbar-width: none;
+    }
+    .best-sellers-home .products-grid::-webkit-scrollbar,
+    .page-products .products-section .products-grid-main::-webkit-scrollbar,
+    .page-products .you-may-like-section .products-grid-like::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Set fixed width for scrolling cards */
+    .best-sellers-home .product-card,
+    .page-products .products-section .product-card,
+    .page-products .you-may-like-section .product-card {
+        flex: 0 0 190px;
+        scroll-snap-align: start;
+        padding-bottom: 70px;
+    }
+    
+    .product-card .product-button {
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+      width: calc(100% - 30px);
+    }
+    
+    .page-products .hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+    }
+    
+    .page-about .hero-title {
+        font-size: clamp(1.5rem, 5vw, 2.0rem);
+    }
+
+    .page-products .hero-subtitle,
+    .page-about .hero-subtitle {
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
 }
-
-/* ===== Mobile: smaller horizontal cards ===== */
-@media (max-width: 900px) {
-  /* Home – Best Sellers row */
-  .best-sellers-home .products-grid {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 0 0 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .best-sellers-home .product-card {
-    flex: 0 0 180px;         /* ↓ narrower cards */
-    max-width: 180px;
-    min-width: 180px;
-    scroll-snap-align: start;
-  }
-  .best-sellers-home .product-image {
-    height: 170px;           /* shorter image so cards aren’t tall */
-    object-fit: cover;
-  }
-
-  /* Products page – main product list row */
-  .page-products .products-section .products-grid-main {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 0 0 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .page-products .products-section .product-card {
-    flex: 0 0 180px;
-    max-width: 180px;
-    min-width: 180px;
-    scroll-snap-align: start;
-  }
-  .page-products .products-section .product-image {
-    height: 170px;
-    object-fit: cover;
-  }
-
-  /* Products page – "You may also like" row */
-  .page-products .you-may-like-section .products-grid-like {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 0 0 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .page-products .you-may-like-section .product-card {
-    flex: 0 0 170px;         /* a tad smaller for the recs row */
-    max-width: 170px;
-    min-width: 170px;
-    scroll-snap-align: start;
-  }
-  .page-products .you-may-like-section .product-image {
-    height: 160px;
-    object-fit: cover;
-  }
-
-  /* tighten text so cards don’t get tall */
-  .product-card .product-title { font-size: 0.95rem; line-height: 1.2; }
-  .product-card .product-description {
-    font-size: 0.9rem; line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .product-card .product-price { margin-top: 6px; }
-}
-
-/* ===== Featured Product: reduce vertical height (Products page only) ===== */
-.page-products .featured-product-image img {
-  height: clamp(220px, 30vw, 360px) !important;  /* desktop/tablet */
-  object-fit: cover;
-}
-
-@media (max-width: 900px) {
-  .page-products .featured-product-image img {
-    height: clamp(200px, 45vw, 300px) !important;  /* mobile */
-  }
-
-  /* also trim spacing/text so the whole section feels shorter */
-  .page-products .featured-product { gap: 16px; }
-  .page-products .featured-product-details { padding: 12px 14px; }
-  .page-products .featured-product-details p {
-    font-size: 0.95rem; line-height: 1.4;
-    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
-    margin: 8px 0 0;
-  }
-  .page-products .featured-price { margin-top: 8px; }
-}
-
-
-/* === FIX: uniform product-card height + aligned buttons (works with .product-info) === */
-.product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-bottom: 1rem;
-}
-
-.product-image {
-  flex: 0 0 auto;          /* image stays at top, not stretchy */
-  width: 100%;
-}
-
-/* This is the real wrapper in your HTML */
-.product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;           /* take remaining height */
-}
-
-/* Title: clamp to 2 lines so card heights are consistent */
-.product-title {
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.3;
-  margin-bottom: 6px;
-  min-height: 2.6em;        /* space for 2 lines */
-  display: -webkit-box;     /* clamp visually (mobile & chrome/safari) */
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Ratings shouldn't change card height */
-.product-rating { min-height: 1.25rem; margin-bottom: 8px; }
-
-/* Description fills the flexible space, then price+button sit at bottom */
-.product-description {
-  flex: 1 1 auto;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  margin-bottom: 0.8rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;    /* trim long blurbs */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Push price to the bottom of the text column */
-.product-price {
-  margin-top: auto;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-/* Button aligns consistently under price */
-.product-button,
-.product-card .amazon-button,
-.product-card button {
-  width: 100%;
-  align-self: stretch;       /* full width inside card */
-  margin-top: 10px;
-}
-
-/* keep title height consistent (2 lines max) */
-.you-may-like-section .product-title {
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.3;
-  margin-bottom: 6px;
-  min-height: 2.6em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* don't let rating change card height */
-.you-may-like-section .product-rating { 
-  min-height: 1.25rem; 
-  margin-bottom: 8px; 
-}
-
-/* description fills the flexible space */
-.you-may-like-section .product-description {
-  flex: 1 1 auto;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  margin-bottom: 0.8rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* push price & button to the bottom */
-.you-may-like-section .product-price {
-  margin-top: auto;                  /* key: pins everything below to bottom */
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.you-may-like-section .product-button,
-.you-may-like-section .amazon-button,
-.you-may-like-section .product-card button {
-  width: 100%;
-  align-self: stretch;
-  margin-top: 10px;
-}
-
-/* If you only want this on mobile, wrap everything above in: 
-@media (max-width: 900px) { ... } 
-*/
-
-/* ==========================================================
-   MOBILE TWEAKS: Hero Text & Alignment (Home, Products, About)
-   ========================================================== */
-@media (max-width: 900px) {
-
-  /* === 1. HOME PAGE: reduce heading text size by ~20% === */
-  .page-home .hero-title,
-  .hero.hero--home .hero-title {
-    font-size: 80% !important;   /* ↓ about 20% smaller */
-  }
-
-  .page-products .hero.hero--products .hero-subtitle {
-    font-size: 90%;              /* slightly smaller for mobile */
-    text-align: center;
-    margin-top: 0.5rem;
-  }
-
-  /* === 3. ABOUT US & MISSION PAGE === */
-  .page-about .hero.hero--about .hero-title {
-    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.2rem) !important; /* fits in one line */
-    text-align: center;
-  }
-
-  .page-about .hero.hero--about .hero-subtitle {
-    text-align: center;
-    margin-top: 0.5rem;
-    font-size: 90%;
-  }
-}
-
-
-/* (Optional) nudge subtitle size a touch on mobile only */
-@media (max-width: 900px) {
-  .page-products .hero.hero--products .hero-subtitle,
-  .page-about   .hero.hero--about    .hero-subtitle {
-    font-size: 90%;
-  }
-}
-
-/* ==========================================================
-   FIX 2: "You May Also Like" – equalize card height & align
-   the Shop button to the bottom across all cards (desktop+mobile)
-   ========================================================== */
-.page-products .you-may-like-section .products-grid-like {
-  align-items: stretch;                /* make the cards equal-height in the row */
-}
-
-.page-products .you-may-like-section .product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.page-products .you-may-like-section .product-image {
-  flex: 0 0 auto;
-  width: 100%;
-}
-
-.page-products .you-may-like-section .product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;                      /* take remaining vertical space */
-}
-
-.page-products .you-may-like-section .product-title {
-  min-height: 2.6em;                   /* reserve space for 2 lines */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.page-products .you-may-like-section .product-rating {
-  min-height: 1.25rem;
-  margin-bottom: 8px;
-}
-
-.page-products .you-may-like-section .product-description {
-  flex: 1 1 auto;                       /* stretch to fill the middle */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 0.8rem;
-}
-
-.page-products .you-may-like-section .product-price {
-  margin-top: auto;                     /* ← pins price to bottom of text column */
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.page-products .you-may-like-section .product-button {
-  align-self: stretch;
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* ================================================
-   Vertically center only the HERO SUBTITLE (Products & About)
-   — without stretching the hero height
-   ================================================ */
-.page-products .hero.hero--products .hero-content,
-.page-about   .hero.hero--about    .hero-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* Center only the subtitle absolutely */
-.page-products .hero.hero--products .hero-subtitle,
-.page-about   .hero.hero--about    .hero-subtitle {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  text-align: center;
-  font-size: clamp(1rem, 2.6vw, 1.4rem);
-  line-height: 1.4;
-  z-index: 3;          /* <-- add this */
-}
-
-/* Optional fine-tune (push slightly lower if overlapping title) */
-.page-products .hero.hero--products .hero-subtitle { top: 58%; }
-.page-about   .hero.hero--about    .hero-subtitle { top: 58%; }
-
-/* Keep hero’s normal height as it was originally */
-.page-products .hero.hero--products,
-.page-about   .hero.hero--about {
-  min-height: clamp(320px, 55vh, 600px); /* matches your earlier hero size */
-}
-
-/* ================================================
-   You May Also Like – make every card align, even if
-   one card is missing rating/description/wrapper
-   ================================================ */
-.page-products .you-may-like-section .products-grid-like {
-  align-items: stretch;                 /* equal card heights in the row */
-  grid-auto-rows: 1fr; 
-}
-
-/* Card and inner column */
-.page-products .you-may-like-section .product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-
-
-/* If .product-info exists, make it the flexible column */
-.page-products .you-may-like-section .product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-}
-
-/* If .product-info is missing for any card, treat everything
-   after the image as a flexible stack too (fallback) */
-.page-products .you-may-like-section .product-card > :not(.product-image) {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-}
-
-/* Keep title height consistent */
-.page-products .you-may-like-section .product-title {
-  min-height: 2.6em;                    /* ~2 lines */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Reserve space for rating; if not present, height stays even */
-.page-products .you-may-like-section .product-rating { 
-  min-height: 1.25rem;
-  margin-bottom: 8px;
-}
-
-/* Description flexes to fill the middle (when present) */
-.page-products .you-may-like-section .product-description {
-  flex: 1 1 auto;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 0.8rem;
-}
-
-/* Price near the bottom (helps when price exists) */
-.page-products .you-may-like-section .product-price {
-  font-weight: 600;
-  min-height: 1.4rem;                   /* keep stable if shorter */
-}
-
-/* 🔒 Hard lock: ALWAYS pin the button to the bottom
-   – works for .product-button or .amazon-button or <a/button> */
-.page-products .you-may-like-section .product-card .product-button,
-.page-products .you-may-like-section .product-card .amazon-button,
-.page-products .you-may-like-section .product-card a.button,
-.page-products .you-may-like-section .product-card button {
-  margin-top: auto;                      /* key: pushes to bottom */
-  width: 100%;
-  align-self: stretch;
-}
-
-
-/* === You May Also Like: hard-lock button baselines across all cards === */
-.page-products .you-may-like-section .product-card {
-  position: relative;                 /* so the button can anchor to bottom */
-  padding-bottom: 84px;               /* reserve space for the button */
-}
-
-.page-products .you-may-like-section .product-button,
-.page-products .you-may-like-section .amazon-button,
-.page-products .you-may-like-section .product-card a.button,
-.page-products .you-may-like-section .product-card button {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  margin-top: 0;                      /* ignore previous auto margin */
-  width: calc(100% - 40px);           /* match the left/right inset */
-  align-self: stretch;
-}
-
-@media (max-width: 900px) {
-  .page-products .you-may-like-section .product-card { padding-bottom: 76px; }
-  .page-products .you-may-like-section .product-button,
-  .page-products .you-may-like-section .amazon-button,
-  .page-products .you-may-like-section .product-card a.button,
-  .page-products .you-may-like-section .product-card button {
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    width: calc(100% - 28px);
-  }
-}
-
-/* --- YML: ensure bottom button never crops --- */
-.page-products .you-may-like-section .product-card {
-  position: relative;
-  padding-bottom: 100px;   /* was smaller; give the button more breathing room */
-  overflow: visible;       /* make sure rounded button isn’t clipped */
-}
-
-/* keep the absolute bottom anchoring you already have */
-.page-products .you-may-like-section .product-card .product-button,
-.page-products .you-may-like-section .product-card .amazon-button,
-.page-products .you-may-like-section .product-card a.button,
-.page-products .you-may-like-section .product-card button {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 16px;
-  width: calc(100% - 36px);
-  margin: 0;               /* margin-top:auto not needed with absolute */
-}
-
-/* slightly tighter on small screens */
-@media (max-width: 900px) {
-  .page-products .you-may-like-section .product-card {
-    padding-bottom: 92px;  /* still larger than before to avoid cropping */
-  }
-  .page-products .you-may-like-section .product-card .product-button,
-  .page-products .you-may-like-section .product-card .amazon-button,
-  .page-products .you-may-like-section .product-card a.button,
-  .page-products .you-may-like-section .product-card button {
-    left: 14px;
-    right: 14px;
-    bottom: 12px;
-    width: calc(100% - 28px);
-  }
-}
-
-/* --- Hero subtitle: avoid overlap with title (Products + About) --- */
-
-/* default: push a bit lower than 50% to clear the H1 */
-.page-products .hero.hero--products .hero-subtitle,
-.page-about   .hero.hero--about    .hero-subtitle {
-  top: 60%;               /* was ~55–58%; move lower to clear the title */
-}
-
-/* tighten typography on small screens */
-@media (max-width: 900px) {
-  .page-products .hero.hero--products .hero-title,
-  .page-about   .hero.hero--about    .hero-title {
-    font-size: clamp(1.4rem, 4.2vw + .4rem, 2.1rem);
-    line-height: 1.1;
-  }
-  .page-products .hero.hero--products .hero-subtitle,
-  .page-about   .hero.hero--about    .hero-subtitle {
-    top: 64%;             /* a touch lower on phones */
-    font-size: clamp(.95rem, 2.6vw, 1.15rem);
-  }
-}
-
-/* =========================================================
-   FINAL HERO FIXES — Products & About (mobile + desktop)
-   - Do NOT stretch hero (no min-height on .hero-content)
-   - Center ONLY the subtitle
-   - Prevent title/subtitle overlap on small screens
-   ========================================================= */
-
-/* 0) Safety: ensure hero-content is a normal overlay container */
-body.page-products  .hero.hero--products  .hero-content,
-body.page-about     .hero.hero--about     .hero-content {
-  position: relative !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  min-height: unset !important;
-  height: auto !important;
-}
-
-/* 1) Center ONLY the subtitle (absolute) */
-body.page-products .hero.hero--products .hero-subtitle,
-body.page-about    .hero.hero--about    .hero-subtitle {
-  position: absolute !important;
-  left: 50% !important;
-  top: 58% !important;              /* desktop/tablet */
-  transform: translate(-50%, -50%) !important;
-  width: 90% !important;
-  line-height: 1.35 !important;
-  z-index: 3 !important;            /* keep above overlay/image */
-}
-
-/* 2) Title stays in normal flow, with a little breathing room */
-body.page-products .hero.hero--products .hero-title,
-body.page-about    .hero.hero--about    .hero-title {
-  position: relative;
-  z-index: 3;
-  margin-top: clamp(6px, 1.2vh, 16px);
-}
-
-/* 3) Tighter on phones to avoid overlap */
-@media (max-width: 900px) {
-  body.page-products .hero.hero--products .hero-subtitle,
-  body.page-about    .hero.hero--about    .hero-subtitle {
-    top: 64% !important;            /* push a touch lower on mobile */
-    font-size: clamp(0.95rem, 2.7vw, 1.15rem);
-  }
-  body.page-products .hero.hero--products .hero-title,
-  body.page-about    .hero.hero--about    .hero-title {
-    font-size: clamp(1.35rem, 4.2vw + .35rem, 2.05rem);
-    line-height: 1.12;
-  }
-}
-
-/* Optional: if you want a little contrast behind text on busy photos
-body.page-products .hero.hero--products .hero-content::before,
-body.page-about    .hero.hero--about    .hero-content::before {
-  content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,0));
-  z-index:2; pointer-events:none;
-}
-*/
