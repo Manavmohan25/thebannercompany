@@ -1410,14 +1410,15 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     font-size: 80% !important;   /* ↓ about 20% smaller */
   }
 
-  /* === 2. PRODUCTS PAGE: center subtitle in hero === */
-  .page-products .hero.hero--products .hero-content {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-  }
+  /* Center hero content vertically & horizontally on Products */
+.page-products .hero.hero--products .hero-content {
+  min-height: calc(100% - 70px); /* subtract fixed navbar padding-top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 
   .page-products .hero.hero--products .hero-subtitle {
     font-size: 90%;              /* slightly smaller for mobile */
@@ -1435,5 +1436,116 @@ input, textarea, select { font-size: 16px; } /* avoids iOS zoom */
     text-align: center;
     margin-top: 0.5rem;
     font-size: 90%;
+  }
+}
+
+
+/* ==========================================================
+   FIX 1: Products & About heroes – center content vertically
+   (compensate for the 70px top padding under the fixed navbar)
+   ========================================================== */
+.page-products .hero.hero--products .hero-content,
+.page-about   .hero.hero--about    .hero-content {
+  min-height: calc(100% - 70px);  /* subtract the navbar clearance */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* (Optional) nudge subtitle size a touch on mobile only */
+@media (max-width: 900px) {
+  .page-products .hero.hero--products .hero-subtitle,
+  .page-about   .hero.hero--about    .hero-subtitle {
+    font-size: 90%;
+  }
+}
+
+/* ==========================================================
+   FIX 2: "You May Also Like" – equalize card height & align
+   the Shop button to the bottom across all cards (desktop+mobile)
+   ========================================================== */
+.page-products .you-may-like-section .products-grid-like {
+  align-items: stretch;                /* make the cards equal-height in the row */
+}
+
+.page-products .you-may-like-section .product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page-products .you-may-like-section .product-image {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.page-products .you-may-like-section .product-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;                      /* take remaining vertical space */
+}
+
+.page-products .you-may-like-section .product-title {
+  min-height: 2.6em;                   /* reserve space for 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.page-products .you-may-like-section .product-rating {
+  min-height: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.page-products .you-may-like-section .product-description {
+  flex: 1 1 auto;                       /* stretch to fill the middle */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.page-products .you-may-like-section .product-price {
+  margin-top: auto;                     /* ← pins price to bottom of text column */
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.page-products .you-may-like-section .product-button {
+  align-self: stretch;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ========== Our Story (founder image) – show full image, no crop ========== */
+
+/* Make sure the image itself never crops */
+.story-image img {
+  width: 100%;
+  height: auto;              /* keeps full image proportions */
+  object-fit: contain;       /* in case a height sneaks in elsewhere */
+  display: block;
+}
+
+/* If the container had a fixed height anywhere, neutralize it */
+.story-image {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible;         /* don’t clip the image */
+}
+
+/* Mobile: stack image above text and give breathing room */
+@media (max-width: 900px) {
+  .story-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;               /* space between image and text */
+  }
+  .story-image,
+  .story-text {
+    width: 100%;
   }
 }
