@@ -215,6 +215,7 @@ body {
     flex-direction: column;
     text-align: center;
     padding: 20px;
+    gap: 1.5rem; /* Adds space between title and button */
 }
 
 /* Hero typography refresh */
@@ -923,18 +924,24 @@ body {
 /* This positions the title at the top */
 .page-products .hero-content,
 .page-about .hero-content {
-  justify-content: flex-start;
-  padding-top: clamp(1.5rem, 6vh, 3rem);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%; /* Prevents text from hitting edges */
+  height: auto; /* Resets height */
+  padding: 0;
+  gap: 1.0rem; /* Space between title and subtitle */
 }
 
 /* This removes the subtitle from the title's influence */
+.page-products .hero-title,
+.page-about .hero-title,
 .page-products .hero-subtitle,
 .page-about .hero-subtitle {
-  position: absolute;
-  top: 200%; /* Adjust this percentage to move it lower or higher */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
+  position: static;
+  transform: none;
+  width: auto;
   margin: 0;
 }
 
@@ -1041,4 +1048,9 @@ body {
     .page-about .hero-subtitle {
         font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     }
+}
+
+/* Nudge home page hero content down */
+.page-home .hero-content {
+  padding-top: 8rem;
 }
