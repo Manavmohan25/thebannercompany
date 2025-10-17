@@ -1054,3 +1054,8 @@ body {
 .page-home .hero-content {
   padding-top: 8rem;
 }
+
+/* Reduce font size for homepage hero title */
+.page-home .hero-title {
+  font-size: clamp(1.6rem, 3vw + 1rem, 2.8rem);
+}
