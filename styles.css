@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Birthstone&display=swap');
+
 
 :root {
     --primary-pink: #FF8BA7;
@@ -1055,7 +1057,27 @@ body {
   padding-top: 8rem;
 }
 
-/* Reduce font size for homepage hero title */
+/* ==========================================================
+   HOME PAGE HERO TITLE — Birthstone Font
+   ========================================================== */
 .page-home .hero-title {
-  font-size: clamp(1.6rem, 3vw + 1rem, 2.8rem);
+  font-family: 'Birthstone', cursive;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw + 1rem, 4.2rem); /* responsive scaling */
+  color: var(--white);
+  text-transform: none;  /* keep natural script style */
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
+
+/* Mobile view: smaller font so it fits one line */
+@media (max-width: 900px) {
+  .page-home .hero-title {
+    font-size: clamp(1.3rem, 4vw + 0.3rem, 2.5rem);
+    line-height: 1.05;
+  }
+}
+
+
+
