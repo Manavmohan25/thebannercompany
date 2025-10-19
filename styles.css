@@ -6,6 +6,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Birthstone&display=swap');
 
+/* ==========================================================
+   Custom Font: Authentic Signature
+   ========================================================== */
+@font-face {
+  font-family: 'Authentic Signature';
+  src: url('assets/fonts/AuthenticSignature.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 
 :root {
     --primary-pink: #FF8BA7;
@@ -1058,23 +1069,22 @@ body {
 }
 
 /* ==========================================================
-   HOME PAGE HERO TITLE — Birthstone Font
+   HOME PAGE HERO TITLE — Authentic Signature Font
    ========================================================== */
 .page-home .hero-title {
-  font-family: 'Birthstone', cursive;
-  font-weight: 400;
-  font-size: clamp(2.2rem, 5vw + 1rem, 4.2rem); /* responsive scaling */
+  font-family: 'Authentic Signature', cursive;
+  font-weight: normal;
+  font-size: clamp(2.8rem, 5vw + 1rem, 4.5rem);
   color: var(--white);
-  text-transform: none;  /* keep natural script style */
   line-height: 1.1;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-transform: none; /* keep the handwritten style */
 }
 
-/* Mobile view: smaller font so it fits one line */
+/* Mobile: shrink slightly so it stays on one line */
 @media (max-width: 900px) {
   .page-home .hero-title {
-    font-size: clamp(1.3rem, 4vw + 0.3rem, 2.5rem);
+    font-size: clamp(1.8rem, 4vw + 0.6rem, 2.5rem);
     line-height: 1.05;
   }
 }
